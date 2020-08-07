@@ -514,11 +514,11 @@ def test_generate_thumbnail(fx_session, fx_sample_image, tmp_store):
 
 
 def test_generate_thumbnail_implicitly(fx_session, fx_sample_image, tmp_store):
-    filepath, mimetype, (width, height) = fx_sample_image
     with store_context(tmp_store):
         something = Something(name='some name')
         with raises(IOError):
             something.cover.generate_thumbnail(ratio=0.5)
+        filepath, mimetype, (width, height) = fx_sample_image
         with open(filepath, 'rb') as f:
             original = something.cover.from_file(f)
             assert something.cover.original is original

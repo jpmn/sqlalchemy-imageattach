@@ -64,11 +64,8 @@ def test_migrate_class_execute(fx_session, fx_source_store, fx_migration):
     plan = migrate_class(fx_session, SomethingCover, fx_source_store, dst)
     assert dst.files == {}
     plan.execute()
-    assert dst.files == dict(
-        (k, v)
-        for k, v in fx_source_store.files.items()
-        if k[0] == 'something-cover'
-    )
+    assert dst.files == {k: v for k, v in fx_source_store.files.items()
+            if k[0] == 'something-cover'}
 
 
 def test_migrate_class_iter(fx_session, fx_source_store, fx_migration):
@@ -77,11 +74,8 @@ def test_migrate_class_iter(fx_session, fx_source_store, fx_migration):
     assert dst.files == {}
     for _ in plan:
         pass
-    assert dst.files == dict(
-        (k, v)
-        for k, v in fx_source_store.files.items()
-        if k[0] == 'something-cover'
-    )
+    assert dst.files == {k: v for k, v in fx_source_store.files.items()
+            if k[0] == 'something-cover'}
 
 
 def test_migrate_execute(fx_session, fx_source_store, fx_migration):

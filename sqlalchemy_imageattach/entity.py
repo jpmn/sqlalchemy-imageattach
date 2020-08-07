@@ -222,8 +222,7 @@ class Image(object):
 
         """
         columns = inspect(cls).primary_key
-        names = [c.name for c in columns if c.name not in ('width', 'height')]
-        return names
+        return [c.name for c in columns if c.name not in ('width', 'height')]
 
     @property
     def identity_map(self):
@@ -464,10 +463,7 @@ class BaseImageQuery(Query):
         def test(image):
             if not image.original:
                 return False
-            for filter, value in kwargs.items():
-                if getattr(image, filter) != value:
-                    return False
-            return True
+            return all(getattr(image, filter) == value for filter, value in kwargs.items())
 
         if Session.object_session(self.instance) is None:
             images = []

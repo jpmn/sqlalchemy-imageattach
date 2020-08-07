@@ -65,8 +65,7 @@ def migrate(session, declarative_base, source, destination):
     @MigrationPlan
     def result():
         for cls in classes:
-            for instance in migrate_class(session, cls, source, destination):
-                yield instance
+            yield from migrate_class(session, cls, source, destination)
     return result
 
 
